@@ -1,4 +1,4 @@
-import { Student } from "../../domain";
+import { Student } from "../../domain/models";
 import { StudentsRepository } from "../repositories";
 
 export class StudentsService {
@@ -24,7 +24,7 @@ export class StudentsService {
 		const studentToUpdate = await this.studentRepository.findById(id);
 
 		if (!studentToUpdate) {
-			throw new Error('Student requested not found');
+			throw new Error("Student requested not found");
 		}
 
 		return await this.studentRepository.save(student);

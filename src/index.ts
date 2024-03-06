@@ -1,19 +1,44 @@
 import morgan from "morgan";
-import express from "express";
-import { config } from "dotenv";
+import dotenv from "dotenv";
+import express, { Application } from "express";
 
 import { studentsRouter } from "./infrastructure/routers";
 
-config();
+class Bootstrap {
+	private app: Application;
 
-const app = express();
+	constructor() {
+		this.app = express();
 
-const PORT = process.env.SERVER_PORT ?? 8085;
+		this.configureMiddlewares();
+		this.configureRoutes();
 
-app.use(morgan("dev"));
-app.use(express.json());
-app.use("/students", studentsRouter);
+		this.runApplication(process.env.SERVER_PORT ?? "8085");
+	}
 
-app.listen(PORT, () => {
-	console.log(`Servidor corriendo en el puerto ${PORT}`);
-});
+	configureMiddlewares() {
+		dotenv.config();
+
+		this.app.use(morgan("dev"));
+		this.app.use(express.json());
+	}
+
+	configureRoutes() {
+		this.app.use("/students", studentsRouter);
+	}
+
+	runApplication(port: string) {
+		this.app.listen(port, () => {
+			console.log(`Server running on port: ${port}`);
+		});
+	}
+}
+
+try {
+	new Bootstrap();
+} catch (error) {
+	console.error(
+		"Oh no! An error was occurred while trying to running the app: ",
+		error,
+	);
+}

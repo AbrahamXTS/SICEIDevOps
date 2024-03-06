@@ -1,4 +1,4 @@
-import { Student } from "../../domain";
+import { Student } from "../../domain/models";
 import { StudentsRepository } from "../../application/repositories";
 
 export class InMemoryStudentRepository implements StudentsRepository {
@@ -26,9 +26,9 @@ export class InMemoryStudentRepository implements StudentsRepository {
 		if (!student.id) {
 			student.id = `${this.__students.size + 1}`;
 		}
-		
+
 		this.__students.set(student.id, student);
-		
+
 		return student;
 	}
 }
