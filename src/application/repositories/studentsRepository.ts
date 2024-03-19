@@ -6,6 +6,6 @@ export interface StudentsRepository {
 	findAll(): Promise<Student[]>;
 
 	findById(id: string): Promise<Student | null>;
-	
+
 	save(student: Student): Promise<Student>;
 }
