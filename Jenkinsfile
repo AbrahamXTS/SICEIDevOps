@@ -13,13 +13,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Build Docker image step started'
-                sh "sudo docker build -t abraham-espinosa-${GIT_BRANCH}-sicei:${BUILD_NUMBER} ."
+                sh "docker build -t abraham-espinosa-${GIT_BRANCH}-sicei:${BUILD_NUMBER} ."
             }
         }
         stage('Deploy') {
             steps {
                 echo 'Deploy Docker image step started'
-                sh "sudo docker run -d -p 8085:8085 abraham-espinosa-${GIT_BRANCH}-sicei:${BUILD_NUMBER}"
+                sh "docker run -d -p 8085:8085 --name sicei-${BUILD_NUMBER} abraham-espinosa-${GIT_BRANCH}-sicei:${BUILD_NUMBER}"
             }
         }
     }
