@@ -6,12 +6,7 @@ pipeline {
             steps {
                 echo 'Stoping all containers related to project'
                 script {
-                    def containerIds = sh(script: 'docker ps --format "{{.ID}} {{.Names}}" | awk -v pat="sicei" \'$0 ~ pat {print $1}\'', returnStdout: true).trim().split('\n')
-
-                    containerIds.each { containerId ->
-                        echo "Stoping ${containerId} container"
-                        sh "docker stop ${containerId}"
-                    }
+                    sh 'docker ps -a | grep sicei | awk \'{print $1}\' | xargs docker stop'
                 }
             }
         }
